@@ -9,6 +9,7 @@ import com.kea.cosmeticsbackend.service.JwtUserDetailsService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -62,14 +63,15 @@ public class JwtController {
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
-            return ResponseEntity.ok(new JwtResponseModel("bad credentials"));
+            // Changed the response to use HttpStatus.UNAUTHORIZED for invalid credentials
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JwtResponseModel("Invalid credentials"));
         }
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         final String jwtToken = jwtTokenManager.generateJwtToken(userDetails);
         return ResponseEntity.ok(new JwtResponseModel(jwtToken));
     }
 
-    @PostMapping("/getSecret")
+        @PostMapping("/getSecret")
     public ResponseEntity<Map> getSecret() {
         System.out.println("getSecret is called");
         Map<String, String> map = new HashMap<>();
