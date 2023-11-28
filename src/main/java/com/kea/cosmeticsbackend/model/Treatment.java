@@ -1,6 +1,7 @@
 package com.kea.cosmeticsbackend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,11 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "treatments")
-
 public class Treatment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,11 +21,4 @@ public class Treatment {
     private int duration;
     private int discount;
 
-    public Treatment(String treatmentType, int price, int duration, int discount) {
-        this.treatmentType = treatmentType;
-        this.price = price;
-        this.duration = duration;
-        this.discount = discount;
-    }
-    //.
 }
