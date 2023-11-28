@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface TreatmentRepository extends JpaRepository<Treatment, Long> {
+public interface TreatmentRepository extends JpaRepository<Treatment, Integer> {
 
-    List<Treatment> findTreatmentById(Long id);
+    List<Treatment> findTreatmentByTreatmentId(int id);
 
     List<Treatment> findTreatmentByDiscount(int discount);
 

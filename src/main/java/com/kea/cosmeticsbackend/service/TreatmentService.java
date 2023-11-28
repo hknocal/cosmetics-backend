@@ -12,8 +12,8 @@ import java.util.List;
 public class TreatmentService {
     private TreatmentRepository treatmentRepository;
 
-    public List<Treatment> getTreatmentById(Long id){
-        return treatmentRepository.findTreatmentById(id);
+    public List<Treatment> getTreatmentByTreatmentId(int id){
+        return treatmentRepository.findTreatmentByTreatmentId(id);
     }
 
     public List<Treatment> getTreatmentByDiscount(int discount){
@@ -28,16 +28,16 @@ public class TreatmentService {
         return treatmentRepository.save(treatment);
     }
 
-    public Treatment updateTreatment(Long id, Treatment updatedTreatment){
+    public Treatment updateTreatment(int id, Treatment updatedTreatment){
         if (treatmentRepository.existsById(id)){
-            updatedTreatment.setId(id);
+            updatedTreatment.setTreatmentId(id);
             return treatmentRepository.save(updatedTreatment);
         }else {
             return null;
         }
     }
 
-    public void deleteTreatment(Long id){
+    public void deleteTreatment(int id){
         treatmentRepository.deleteById(id);
     }
 }

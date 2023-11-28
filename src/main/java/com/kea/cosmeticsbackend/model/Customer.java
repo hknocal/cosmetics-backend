@@ -13,16 +13,17 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "treatment")
-public class Treatment {
+@Table(name = "customer")
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int treatmentId;
-    private String treatmentType;
-    private int price;
-    private int duration;
-    private int discount;
+    private int customerId;
+    private String firstname;
+    private String lastname;
+    private String mail;
+    private String address;
+    private String phoneNumber;
 
-    @OneToMany(mappedBy = "treatment")
+    @OneToMany(mappedBy = "customer")
     private Set<Booking> bookings;
 }

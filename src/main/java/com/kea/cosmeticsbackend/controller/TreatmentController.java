@@ -18,8 +18,8 @@ public class TreatmentController {
     private TreatmentService treatmentService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<Treatment>> getTreatmentById(@PathVariable Long id) {
-        List<Treatment> treatmentList = treatmentService.getTreatmentById(id);
+    public ResponseEntity<List<Treatment>> getTreatmentById(@PathVariable int id) {
+        List<Treatment> treatmentList = treatmentService.getTreatmentByTreatmentId(id);
         return new ResponseEntity<>(treatmentList, HttpStatus.OK);
     }
 
@@ -36,7 +36,7 @@ public class TreatmentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Treatment> updateTreatment(@PathVariable Long id, @RequestBody Treatment updatedTreatment) {
+    public ResponseEntity<Treatment> updateTreatment(@PathVariable int id, @RequestBody Treatment updatedTreatment) {
         Treatment updated = treatmentService.updateTreatment(id, updatedTreatment);
 
         if (updated != null) {
@@ -47,7 +47,7 @@ public class TreatmentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTreatment(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTreatment(@PathVariable int id) {
         treatmentService.deleteTreatment(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
