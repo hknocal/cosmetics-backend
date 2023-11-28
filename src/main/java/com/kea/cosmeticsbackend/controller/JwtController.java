@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @NoArgsConstructor
-@CrossOrigin(origins = "https://gray-beach-011e82b03.4.azurestaticapps.net/")
+@CrossOrigin(origins = "https://happy-sky-0a8b63303.4.azurestaticapps.net")
 public class JwtController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
