@@ -40,16 +40,22 @@ public class JwtController {
     public ResponseEntity<JwtResponseModel> signup(@RequestBody JwtRequestModel request) {
         System.out.println("signup: username:" + request.getUsername() + " password: " + request.getPassword());
         User user = new User(request.getUsername(), request.getPassword());
-        if (userService.findByName(user.getUsername()).size() == 0) {
-            if (userService.save(user) != null) {
-                return ResponseEntity.ok(new JwtResponseModel("created user: " + user.getUsername() + " pw: " + user.getPassword()));
+
+        try {
+            if (userService.findByName(user.getUsername()).size() == 0) {
+                if (userService.save(user) != null) {
+                    return ResponseEntity.ok(new JwtResponseModel("User created successfully!"));
+                } else {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new JwtResponseModel("Error creating user."));
+                }
             } else {
-                return ResponseEntity.ok(new JwtResponseModel("error creating user: " + user.getUsername()));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JwtResponseModel("Error: User already exists."));
             }
-        } else {
-            return ResponseEntity.ok(new JwtResponseModel("error: user exists: " + user.getUsername()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new JwtResponseModel("An error occurred while processing your request."));
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponseModel> createToken(@RequestBody JwtRequestModel request) throws Exception {
@@ -89,5 +95,15 @@ public class JwtController {
         Map<String, String> map = new HashMap<>();
         map.put("message", "user deleted, if found " + user.getUsername());
         return ResponseEntity.ok(map);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers() {
+        try {
+            List<User> users = userService.getAllUsers();
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
