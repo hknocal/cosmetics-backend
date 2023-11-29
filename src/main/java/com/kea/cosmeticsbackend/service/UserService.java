@@ -53,4 +53,10 @@ public class UserService implements IUserService {
         System.out.println("Userservice called findByName with argument: " + name);
         return userRepository.findByUsername(name);
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        // Use your repository to fetch all users
+        return userRepository.findAll();
+    }
 }
