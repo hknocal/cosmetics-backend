@@ -1,5 +1,7 @@
 package com.kea.cosmeticsbackend.controller;
 
+import com.kea.cosmeticsbackend.dto.AvailableTimeDTO;
+import com.kea.cosmeticsbackend.dto.BookingDTO;
 import com.kea.cosmeticsbackend.model.Booking;
 import com.kea.cosmeticsbackend.service.BookingService;
 import lombok.AllArgsConstructor;
@@ -22,10 +24,15 @@ public class BookingController {
         List<Booking> bookingList = bookingService.bookingList();
         return new ResponseEntity<>(bookingList, HttpStatus.OK);
     }
+    @GetMapping("/available-times/{treatmentId}")
+    public ResponseEntity<List<AvailableTimeDTO>> getAvailableTimesForTreatment(@PathVariable int treatmentId) {
+        List<AvailableTimeDTO> availableTimes = bookingService.getAvailableTimesForTreatment(treatmentId);
+        return new ResponseEntity<>(availableTimes, HttpStatus.OK);
+    }
 
-    @PostMapping()
-    public ResponseEntity<Booking> saveBooking(@RequestBody Booking booking){
-        Booking savedbooking = bookingService.saveBooking(booking);
+    @PostMapping("/create")
+    public ResponseEntity<Booking> saveBooking(@RequestBody BookingDTO bookingDTO){
+        Booking savedbooking = bookingService.createBooking(bookingDTO);
         return new ResponseEntity<>(savedbooking, HttpStatus.CREATED);
     }
 
