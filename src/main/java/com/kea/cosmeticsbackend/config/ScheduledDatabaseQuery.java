@@ -17,7 +17,7 @@ public class ScheduledDatabaseQuery {
         this.dataSource = dataSource;
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 30000) // Run every 30 seconds
     public void executeQuery() {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
@@ -26,6 +26,9 @@ public class ScheduledDatabaseQuery {
             while (resultSet.next()) {
                 // Process each row of the result set as needed
             }
+
+            // Print a message every time the query is executed
+            System.out.println("MAINTAIN DB CONNECTION QUERY RUNNED");
 
         } catch (SQLException e) {
             e.printStackTrace();
