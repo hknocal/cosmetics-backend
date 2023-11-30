@@ -19,8 +19,6 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookingId;
-    private Date date;
-    private LocalDateTime time;
 
     @ManyToOne
     @JoinColumn(name = "treatment_id")
@@ -31,7 +29,7 @@ public class Booking {
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
