@@ -21,7 +21,7 @@ public class ScheduledDatabaseQuery {
     public void executeQuery() {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM users")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM user")) {
 
             while (resultSet.next()) {
                 // Process each row of the result set as needed
