@@ -31,4 +31,6 @@ public class Booking {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "appointment_time", columnDefinition = "TIMESTAMP")
+    private LocalDateTime appointmentTime;
 }
