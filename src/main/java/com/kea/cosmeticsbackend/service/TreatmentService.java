@@ -3,6 +3,7 @@ package com.kea.cosmeticsbackend.service;
 import com.kea.cosmeticsbackend.model.Treatment;
 import com.kea.cosmeticsbackend.repository.TreatmentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +16,6 @@ public class TreatmentService {
     public List<Treatment> getTreatmentByTreatmentId(int id){
         return treatmentRepository.findTreatmentByTreatmentId(id);
     }
-
-    public List<Treatment> getTreatmentByDiscount(int discount){
-        return treatmentRepository.findTreatmentByDiscount(discount);
-    }
-
     public List<Treatment> getTreatments(){
         return treatmentRepository.findAll();
     }
@@ -36,7 +32,6 @@ public class TreatmentService {
             return null;
         }
     }
-
     public void deleteTreatment(int id){
         treatmentRepository.deleteById(id);
     }
