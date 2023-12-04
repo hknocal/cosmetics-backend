@@ -1,12 +1,12 @@
 package com.kea.cosmeticsbackend.service;
 
-import com.kea.cosmeticsbackend.dto.CreateTreatmentDTO;
+import com.kea.cosmeticsbackend.dto.TreatmentDTO;
 import com.kea.cosmeticsbackend.model.Treatment;
 import com.kea.cosmeticsbackend.repository.TreatmentRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,26 +17,29 @@ public class TreatmentService {
     public List<Treatment> getTreatmentByTreatmentId(int id){
         return treatmentRepository.findTreatmentByTreatmentId(id);
     }
-    public List<Treatment> getTreatments(){
-        return treatmentRepository.findAll();
+    public List<TreatmentDTO> getTreatments(){
+        List<Treatment> treatmentList = treatmentRepository.findAll();
+        return convertEntityListToDTOList(treatmentList);
     }
 
-    public Treatment saveTreatment(CreateTreatmentDTO createTreatmentDTO) {
-        Treatment treatment = convertDTOToEntity(createTreatmentDTO);
+    private List<TreatmentDTO> convertEntityListToDTOList(List<Treatment> treatments) {
+        List<TreatmentDTO> treatmentDTOList = new ArrayList<>();
+
+        for (Treatment treatment : treatments) {
+            TreatmentDTO treatmentDTO = new TreatmentDTO();
+            treatmentDTO.setTreatmentType(treatment.getTreatmentType());
+            treatmentDTO.setPrice(treatment.getPrice());
+            treatmentDTO.setDuration(treatment.getDuration());
+            treatmentDTO.setDiscount(treatment.getDiscount());
+
+            treatmentDTOList.add(treatmentDTO);
+        }
+
+        return treatmentDTOList;
+    }
+    public Treatment saveTreatment(Treatment treatment) {
         return treatmentRepository.save(treatment);
     }
-
-    // Hjælpefunktion til at konvertere DTO til Entity
-    private Treatment convertDTOToEntity(CreateTreatmentDTO createTreatmentDTO) {
-        Treatment treatment = new Treatment();
-        treatment.setTreatmentType(createTreatmentDTO.getTreatmentType());
-        treatment.setPrice(createTreatmentDTO.getPrice());
-        treatment.setDuration(createTreatmentDTO.getDuration());
-        treatment.setDiscount(createTreatmentDTO.getDiscount());
-
-        return treatment;
-    }
-
     public Treatment updateTreatment(int id, Treatment updatedTreatment){
         if (treatmentRepository.existsById(id)){
             updatedTreatment.setTreatmentId(id);

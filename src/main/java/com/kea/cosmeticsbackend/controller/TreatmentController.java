@@ -1,6 +1,6 @@
 package com.kea.cosmeticsbackend.controller;
 
-import com.kea.cosmeticsbackend.dto.CreateTreatmentDTO;
+import com.kea.cosmeticsbackend.dto.TreatmentDTO;
 import com.kea.cosmeticsbackend.model.Treatment;
 import com.kea.cosmeticsbackend.service.TreatmentService;
 import lombok.AllArgsConstructor;
@@ -25,14 +25,14 @@ public class TreatmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Treatment>> getTreatments() {
-        List<Treatment> treatmentList = treatmentService.getTreatments();
-        return new ResponseEntity<>(treatmentList, HttpStatus.OK);
+    public ResponseEntity<List<TreatmentDTO>> getTreatmentDTOs() {
+        List<TreatmentDTO> treatmentDTOList = treatmentService.getTreatments();
+        return new ResponseEntity<>(treatmentDTOList, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Treatment> saveTreatment(@RequestBody CreateTreatmentDTO createTreatmentDTO) {
-        Treatment savedTreatment = treatmentService.saveTreatment(createTreatmentDTO);
+    public ResponseEntity<Treatment> saveTreatment(@RequestBody Treatment treatment) {
+        Treatment savedTreatment = treatmentService.saveTreatment(treatment);
 
         if (savedTreatment != null) {
             return new ResponseEntity<>(savedTreatment, HttpStatus.CREATED);
