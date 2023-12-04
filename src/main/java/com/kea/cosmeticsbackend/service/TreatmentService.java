@@ -1,5 +1,6 @@
 package com.kea.cosmeticsbackend.service;
 
+import com.kea.cosmeticsbackend.dto.CreateTreatmentDTO;
 import com.kea.cosmeticsbackend.model.Treatment;
 import com.kea.cosmeticsbackend.repository.TreatmentRepository;
 import lombok.AllArgsConstructor;
@@ -20,8 +21,20 @@ public class TreatmentService {
         return treatmentRepository.findAll();
     }
 
-    public Treatment saveTreatment(Treatment treatment){
+    public Treatment saveTreatment(CreateTreatmentDTO createTreatmentDTO) {
+        Treatment treatment = convertDTOToEntity(createTreatmentDTO);
         return treatmentRepository.save(treatment);
+    }
+
+    // Hjælpefunktion til at konvertere DTO til Entity
+    private Treatment convertDTOToEntity(CreateTreatmentDTO createTreatmentDTO) {
+        Treatment treatment = new Treatment();
+        treatment.setTreatmentType(createTreatmentDTO.getTreatmentType());
+        treatment.setPrice(createTreatmentDTO.getPrice());
+        treatment.setDuration(createTreatmentDTO.getDuration());
+        treatment.setDiscount(createTreatmentDTO.getDiscount());
+
+        return treatment;
     }
 
     public Treatment updateTreatment(int id, Treatment updatedTreatment){
