@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@AllArgsConstructor
-@NoArgsConstructor
 @CrossOrigin(origins = "https://happy-sky-0a8b63303.4.azurestaticapps.net")
 public class JwtController {
     @Autowired

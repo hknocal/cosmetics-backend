@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
-@NoArgsConstructor
 public class CustomerController {
 
     @Autowired

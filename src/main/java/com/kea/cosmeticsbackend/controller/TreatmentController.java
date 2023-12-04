@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/treatment")
-@NoArgsConstructor
 public class TreatmentController {
 
     @Autowired
