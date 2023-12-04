@@ -30,6 +30,24 @@ public class BookingController {
         return new ResponseEntity<>(availableTimes, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Booking>> getBookingById(@PathVariable int id){
+        List<Booking> bookingList = bookingService.findBookingByBookingId(id);
+        return new ResponseEntity<>(bookingList, HttpStatus.OK);
+    }
+
+    @GetMapping("/byCustomerId")
+    public ResponseEntity<List<Booking>> getBookingsByCustomerId(@RequestParam int customerId) {
+        List<Booking> bookings = bookingService.getBookingsByCustomerId(customerId);
+        return new ResponseEntity<>(bookings, HttpStatus.OK);
+    }
+
+    @GetMapping("/allWithCustomerInfo")
+    public ResponseEntity<List<Booking>> getAllBookingsWithCustomerInfo() {
+        List<Booking> bookings = bookingService.getAllBookingsWithCustomerInfo();
+        return new ResponseEntity<>(bookings, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Booking> saveBooking(@RequestBody BookingDTO bookingDTO){
         Booking savedbooking = bookingService.createBooking(bookingDTO);

@@ -12,6 +12,7 @@ import com.kea.cosmeticsbackend.repository.CustomerRepository;
 import com.kea.cosmeticsbackend.repository.TreatmentRepository;
 import com.kea.cosmeticsbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,6 +33,12 @@ public class BookingService {
 
     public List<Booking> findBookingByBookingId(int id) {
         return bookingRepository.findBookingByBookingId(id);
+    }
+    public List<Booking> getBookingsByCustomerId(int customerId) {
+        return bookingRepository.findByCustomerId(customerId);
+    }
+    public List<Booking> getAllBookingsWithCustomerInfo() {
+        return bookingRepository.findAllWithCustomerInfo();
     }
 
     public Booking createBooking(BookingDTO bookingDTO) {

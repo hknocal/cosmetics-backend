@@ -10,6 +10,4 @@ public interface TreatmentRepository extends JpaRepository<Treatment, Integer> {
 
     List<Treatment> findTreatmentByTreatmentId(int id);
 
-    List<Treatment> findTreatmentByDiscount(int discount);
-
 }
