@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateTreatmentDTO {
+public class TreatmentDTO {
     private String treatmentType;
     private int price;
     private int duration;
