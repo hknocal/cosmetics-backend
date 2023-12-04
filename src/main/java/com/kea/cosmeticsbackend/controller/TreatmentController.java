@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/treatment")
+@CrossOrigin(origins = "https://happy-sky-0a8b63303.4.azurestaticapps.net")
 public class TreatmentController {
 
     @Autowired
