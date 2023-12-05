@@ -5,6 +5,7 @@ import com.kea.cosmeticsbackend.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,18 +35,18 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         System.out.println("WebSec configure(HttpSecurity) Call: 2");
-        http.cors().and().csrf().disable()  // was cors().and() after http
-                // to implement CSRF token https://www.javainuse.com/spring/boot_security_csrf
-                // "antMathcers" comes from Apache Ant build system.
-                // Since Spring 3, the next line replaces the old one:
-                // .authorizeRequests().antMatchers("/login", "/signup").permitAll()
-                .authorizeHttpRequests().requestMatchers("/login", "/signup").permitAll()
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .requestMatchers("/login", "/signup").permitAll()
+                .requestMatchers(HttpMethod.GET, "/treatment/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -57,11 +58,9 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        System.out.println("addCorsMappings called");
-        registry.addMapping("/**")  // /** means match any string recursively
-                .allowedOriginPatterns("http://localhost:*") //Multiple strings allowed. Wildcard * matches all port numbers.
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS") // decide which methods to allow
+        registry.addMapping("/**")
+                .allowedOriginPatterns("http://localhost:*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
                 .allowCredentials(true);
     }
-
 }
