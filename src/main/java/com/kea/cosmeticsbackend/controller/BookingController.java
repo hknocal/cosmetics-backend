@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/booking")
+@CrossOrigin(origins = "https://happy-sky-0a8b63303.4.azurestaticapps.net")
 public class BookingController {
 
     @Autowired
