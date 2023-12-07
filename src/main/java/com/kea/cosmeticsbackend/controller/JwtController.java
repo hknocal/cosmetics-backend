@@ -94,14 +94,4 @@ public class JwtController {
         map.put("message", "user deleted, if found " + user.getUsername());
         return ResponseEntity.ok(map);
     }
-
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        try {
-            List<User> users = userService.getAllUsers();
-            return ResponseEntity.ok(users);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
 }
