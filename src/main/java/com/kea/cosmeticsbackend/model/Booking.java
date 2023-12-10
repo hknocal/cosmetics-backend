@@ -19,8 +19,8 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookingId;
 
-    @ManyToOne
-    @JoinColumn(name = "treatment_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "treatment_id", nullable = false)
     private Treatment treatment;
 
     @ManyToOne

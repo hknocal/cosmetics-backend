@@ -12,20 +12,27 @@ import com.kea.cosmeticsbackend.repository.CustomerRepository;
 import com.kea.cosmeticsbackend.repository.TreatmentRepository;
 import com.kea.cosmeticsbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class BookingService {
-    private BookingRepository bookingRepository;
-    private TreatmentRepository treatmentRepository;
-    private UserRepository userRepository;
-    private CustomerRepository customerRepository;
+    private final BookingRepository bookingRepository;
+    private final TreatmentRepository treatmentRepository;
+    private final CustomerRepository customerRepository;
+
+    @Autowired
+    public BookingService(BookingRepository bookingRepository, TreatmentRepository treatmentRepository, CustomerRepository customerRepository) {
+        this.bookingRepository = bookingRepository;
+        this.treatmentRepository = treatmentRepository;
+        this.customerRepository = customerRepository;
+    }
 
     public List<Booking> bookingList() {
         return bookingRepository.findAll();
@@ -41,32 +48,41 @@ public class BookingService {
         return bookingRepository.findAllWithCustomerInfo();
     }
 
+    @Transactional
     public Booking createBooking(BookingDTO bookingDTO) {
         Booking booking = convertToEntity(bookingDTO);
         return bookingRepository.save(booking);
     }
-
     private Booking convertToEntity(BookingDTO bookingDTO) {
+        // Create a new Treatment entity
+        Treatment treatment = new Treatment();
+        treatment.setTreatmentType(bookingDTO.getTreatmentType());
+        treatment.setPrice(bookingDTO.getTreatmentPrice());
+        treatment.setDuration(bookingDTO.getTreatmentDuration());
+        treatment.setDiscount(bookingDTO.getTreatmentDiscount());
+
+        // Create a new Customer entity
+        Customer customer = new Customer();
+        customer.setFirstname(bookingDTO.getCustomerFirstName());
+        customer.setLastname(bookingDTO.getCustomerLastName());
+        customer.setMail(bookingDTO.getCustomerMail());
+        customer.setAddress(bookingDTO.getCustomerAddress());
+        customer.setPhoneNumber(bookingDTO.getCustomerPhoneNumber());
+
+        // Save the customer entity
+        customerRepository.save(customer);
+
+        // Now, create the Booking entity
         Booking booking = new Booking();
-
-        Treatment treatment = treatmentRepository.findById(bookingDTO.getTreatmentId())
-                .orElseThrow(() -> new NotFoundException("Treatment not found"));
         booking.setTreatment(treatment);
-
-
-        Customer customer = customerRepository.findById(bookingDTO.getCustomerId())
-                .orElseThrow(() -> new NotFoundException("Customer not found"));
         booking.setCustomer(customer);
-
-        User user = userRepository.findById(bookingDTO.getUserId())
-                .orElseThrow(() -> new NotFoundException("User not found"));
-        booking.setUser(user);
-
         booking.setAppointmentTime(bookingDTO.getAppointmentTime());
+
+        // Save the booking entity
+        bookingRepository.save(booking);
 
         return booking;
     }
-
     public List<AvailableTimeDTO> getAvailableTimesForTreatment(int treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId)
                 .orElseThrow(() -> new NotFoundException("Treatment not found"));

@@ -7,13 +7,21 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookingDTO {
-    private int treatmentId;
-    private int customerId;
-    private Long userId;
+    private String customerFirstName;
+    private String customerLastName;
+    private String customerMail;
+    private String customerAddress;
+    private String customerPhoneNumber;
+
+    private String treatmentType;
+    private int treatmentPrice;
+    private int treatmentDuration;
+    private int treatmentDiscount;
+
     private LocalDateTime appointmentTime;
 }

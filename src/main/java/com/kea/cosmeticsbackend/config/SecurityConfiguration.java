@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -34,19 +35,30 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        System.out.println("WebSec configure(HttpSecurity) Call: 2");
         http.cors().and().csrf().disable()
-                .authorizeRequests()
-                .requestMatchers("/login", "/signup").permitAll()
-                .requestMatchers(HttpMethod.GET, "/treatment/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .authorizeRequests(requests -> requests
+                        .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()  // Allow all requests to /login
+                        .requestMatchers(new AntPathRequestMatcher("/signup")).permitAll()  // Allow all requests to /signup
+                        .requestMatchers(new AntPathRequestMatcher("/booking")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/booking/create")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/treatment")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/treatment")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/user/list/*")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/customer")).permitAll()
+                       // .requestMatchers(new AntPathRequestMatcher("/api/quote**")).permitAll()
+                       // .requestMatchers(new AntPathRequestMatcher("/api/quote/*")).permitAll()
+                       // .requestMatchers(new AntPathRequestMatcher("/api/quote")).permitAll()
+                       // .requestMatchers(new AntPathRequestMatcher("/api/subgenre**")).permitAll()
+                       // .requestMatchers(new AntPathRequestMatcher("/api/subgenre/*")).permitAll()
+                       // .requestMatchers(new AntPathRequestMatcher("/api/subgenre")).permitAll()
+
+
+                        .anyRequest().authenticated()
+                )
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
