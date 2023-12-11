@@ -43,7 +43,7 @@ public class BookingService {
         return bookingRepository.findAllWithCustomerInfo();
     }
     @Transactional
-    public Booking createBooking(BookingDTO bookingDTO) {
+    public Booking createBooking(@NotNull BookingDTO bookingDTO) {
         System.out.println("createBooking - Received bookingDTO: " + bookingDTO.toString());
 
         // Create a new Customer object and set all its fields from bookingDTO
