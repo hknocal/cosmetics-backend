@@ -39,6 +39,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .authorizeRequests()
                 .requestMatchers("/login", "/signup").permitAll()
                 .requestMatchers(HttpMethod.GET, "/treatment/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/booking/create").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)

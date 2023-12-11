@@ -1,10 +1,7 @@
 package com.kea.cosmeticsbackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -12,13 +9,14 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customerId;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String mail;
     private String address;
     private String phoneNumber;

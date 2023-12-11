@@ -1,9 +1,6 @@
 package com.kea.cosmeticsbackend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,9 +8,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class BookingDTO {
-    private int treatmentId;
-    private int customerId;
-    private Long userId;
+    private String treatmentType;
+    private String firstName;
+    private String lastName;
+    private String mail;
+    private String address;
+    private String phoneNumber;
     private LocalDateTime appointmentTime;
 }
