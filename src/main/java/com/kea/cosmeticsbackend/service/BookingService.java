@@ -6,25 +6,24 @@ import com.kea.cosmeticsbackend.exception.NotFoundException;
 import com.kea.cosmeticsbackend.model.Booking;
 import com.kea.cosmeticsbackend.model.Customer;
 import com.kea.cosmeticsbackend.model.Treatment;
-import com.kea.cosmeticsbackend.model.User;
 import com.kea.cosmeticsbackend.repository.BookingRepository;
 import com.kea.cosmeticsbackend.repository.CustomerRepository;
 import com.kea.cosmeticsbackend.repository.TreatmentRepository;
-import com.kea.cosmeticsbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class BookingService {
     private BookingRepository bookingRepository;
     private TreatmentRepository treatmentRepository;
-    private UserRepository userRepository;
     private CustomerRepository customerRepository;
 
     public List<Booking> bookingList() {
@@ -40,32 +39,65 @@ public class BookingService {
     public List<Booking> getAllBookingsWithCustomerInfo() {
         return bookingRepository.findAllWithCustomerInfo();
     }
+    @Transactional
+    public Booking createBooking(@NotNull BookingDTO bookingDTO) {
+        System.out.println("createBooking - Received bookingDTO: " + bookingDTO.toString());
 
-    public Booking createBooking(BookingDTO bookingDTO) {
-        Booking booking = convertToEntity(bookingDTO);
+        Customer customer = new Customer();
+        customer.setFirstName(bookingDTO.getFirstName());
+        customer.setLastName(bookingDTO.getLastName());
+        customer.setMail(bookingDTO.getMail());
+        customer.setAddress(bookingDTO.getAddress());
+        customer.setPhoneNumber(bookingDTO.getPhoneNumber());
+        System.out.println("createBooking - Created customer: " + customer.toString());
+
+        customer = findOrCreateCustomerByMail(customer);
+        System.out.println("createBooking - Retrieved or created customer: " + customer.toString());
+
+        Booking booking = convertToEntity(bookingDTO, customer);
+        System.out.println("createBooking - Created booking entity: " + booking.toString());
+
         return bookingRepository.save(booking);
     }
 
-    private Booking convertToEntity(BookingDTO bookingDTO) {
+
+    private Customer findOrCreateCustomerByMail(Customer customer) {
+        String mail = customer.getMail();
+        Optional<Customer> existingCustomerOptional = customerRepository.findByMail(mail);
+        if (existingCustomerOptional.isPresent()) {
+            System.out.println("findOrCreateCustomerByMail - Existing customer found: " + existingCustomerOptional.get().toString());
+            return existingCustomerOptional.get();
+        } else {
+            System.out.println("findOrCreateCustomerByMail - Creating new customer: " + customer.toString());
+            return customerRepository.save(customer);
+        }
+    }
+
+    private Booking convertToEntity(BookingDTO bookingDTO, Customer customer) {
+        System.out.println("convertToEntity - Received bookingDTO: " + bookingDTO.toString());
+        System.out.println("convertToEntity - Associated customer: " + customer.toString());
+
         Booking booking = new Booking();
 
-        Treatment treatment = treatmentRepository.findById(bookingDTO.getTreatmentId())
-                .orElseThrow(() -> new NotFoundException("Treatment not found"));
-        booking.setTreatment(treatment);
+        String treatmentType = bookingDTO.getTreatmentType();
+        Optional<Treatment> treatmentOptional = treatmentRepository.findByTreatmentType(treatmentType);
 
+        if (treatmentOptional.isPresent()) {
+            Treatment treatment = treatmentOptional.get();
+            System.out.println("convertToEntity - Found treatment: " + treatment.toString());
+            booking.setTreatment(treatment);
+        } else {
+            throw new NotFoundException("Treatment not found");
+        }
 
-        Customer customer = customerRepository.findById(bookingDTO.getCustomerId())
-                .orElseThrow(() -> new NotFoundException("Customer not found"));
         booking.setCustomer(customer);
-
-        User user = userRepository.findById(bookingDTO.getUserId())
-                .orElseThrow(() -> new NotFoundException("User not found"));
-        booking.setUser(user);
-
         booking.setAppointmentTime(bookingDTO.getAppointmentTime());
 
+        System.out.println("convertToEntity - Created booking entity: " + booking.toString());
         return booking;
     }
+
+
 
     public List<AvailableTimeDTO> getAvailableTimesForTreatment(int treatmentId) {
         Treatment treatment = treatmentRepository.findById(treatmentId)
