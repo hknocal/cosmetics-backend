@@ -1,4 +1,4 @@
-package com.kea.cosmeticsbackend;
+package com.kea.cosmeticsbackend.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

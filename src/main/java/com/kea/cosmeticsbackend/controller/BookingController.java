@@ -4,8 +4,6 @@ import com.kea.cosmeticsbackend.dto.AvailableTimeDTO;
 import com.kea.cosmeticsbackend.dto.BookingDTO;
 import com.kea.cosmeticsbackend.model.Booking;
 import com.kea.cosmeticsbackend.service.BookingService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

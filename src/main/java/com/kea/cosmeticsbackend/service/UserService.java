@@ -1,6 +1,6 @@
 package com.kea.cosmeticsbackend.service;
 
-import com.kea.cosmeticsbackend.config.SecurityConfiguration;
+import com.kea.cosmeticsbackend.security.SecurityConfiguration;
 import com.kea.cosmeticsbackend.model.User;
 import com.kea.cosmeticsbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;

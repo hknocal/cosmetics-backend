@@ -1,5 +1,6 @@
-package com.kea.cosmeticsbackend.service;
+package com.kea.cosmeticsbackend.security;
 
+import com.kea.cosmeticsbackend.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

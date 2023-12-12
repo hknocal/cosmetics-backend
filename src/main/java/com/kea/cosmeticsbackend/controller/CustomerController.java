@@ -2,8 +2,6 @@ package com.kea.cosmeticsbackend.controller;
 
 import com.kea.cosmeticsbackend.model.Customer;
 import com.kea.cosmeticsbackend.service.CustomerService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

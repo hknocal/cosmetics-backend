@@ -1,13 +1,7 @@
-package com.kea.cosmeticsbackend.controller;
+package com.kea.cosmeticsbackend.security;
 
-import com.kea.cosmeticsbackend.JwtTokenManager;
-import com.kea.cosmeticsbackend.model.JwtRequestModel;
-import com.kea.cosmeticsbackend.model.JwtResponseModel;
 import com.kea.cosmeticsbackend.model.User;
 import com.kea.cosmeticsbackend.service.IUserService;
-import com.kea.cosmeticsbackend.service.JwtUserDetailsService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
