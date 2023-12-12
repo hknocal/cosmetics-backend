@@ -26,10 +26,8 @@ public class UserService implements IUserService {
 
     @Override
     public User save(User user) {
-        //if(user.getPassword() == null) {
         PasswordEncoder pw = SecurityConfiguration.passwordEncoder();
         user.setPassword(pw.encode(user.getPassword()));
-//        }
         return userRepository.save(user);
     }
 
@@ -56,7 +54,6 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> getAllUsers() {
-        // Use your repository to fetch all users
         return userRepository.findAll();
     }
 }

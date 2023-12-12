@@ -6,14 +6,11 @@ import com.kea.cosmeticsbackend.exception.NotFoundException;
 import com.kea.cosmeticsbackend.model.Booking;
 import com.kea.cosmeticsbackend.model.Customer;
 import com.kea.cosmeticsbackend.model.Treatment;
-import com.kea.cosmeticsbackend.model.User;
 import com.kea.cosmeticsbackend.repository.BookingRepository;
 import com.kea.cosmeticsbackend.repository.CustomerRepository;
 import com.kea.cosmeticsbackend.repository.TreatmentRepository;
-import com.kea.cosmeticsbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +43,6 @@ public class BookingService {
     public Booking createBooking(@NotNull BookingDTO bookingDTO) {
         System.out.println("createBooking - Received bookingDTO: " + bookingDTO.toString());
 
-        // Create a new Customer object and set all its fields from bookingDTO
         Customer customer = new Customer();
         customer.setFirstName(bookingDTO.getFirstName());
         customer.setLastName(bookingDTO.getLastName());
@@ -55,15 +51,12 @@ public class BookingService {
         customer.setPhoneNumber(bookingDTO.getPhoneNumber());
         System.out.println("createBooking - Created customer: " + customer.toString());
 
-        // Use the findOrCreateCustomerByMail method to either find an existing customer or save this new one
         customer = findOrCreateCustomerByMail(customer);
         System.out.println("createBooking - Retrieved or created customer: " + customer.toString());
 
-        // Convert the bookingDTO and associated customer to a Booking entity
         Booking booking = convertToEntity(bookingDTO, customer);
         System.out.println("createBooking - Created booking entity: " + booking.toString());
 
-        // Save the booking in the repository
         return bookingRepository.save(booking);
     }
 
@@ -71,12 +64,10 @@ public class BookingService {
     private Customer findOrCreateCustomerByMail(Customer customer) {
         String mail = customer.getMail();
         Optional<Customer> existingCustomerOptional = customerRepository.findByMail(mail);
-
         if (existingCustomerOptional.isPresent()) {
             System.out.println("findOrCreateCustomerByMail - Existing customer found: " + existingCustomerOptional.get().toString());
             return existingCustomerOptional.get();
         } else {
-            // If the customer is not found, create a new customer
             System.out.println("findOrCreateCustomerByMail - Creating new customer: " + customer.toString());
             return customerRepository.save(customer);
         }

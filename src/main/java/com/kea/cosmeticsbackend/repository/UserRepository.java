@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User,Long> {
     List<User> findByUsername(String name);
-    //List<User> findUserByPasswordContains(String passwordPart);
     List<User> findAll();
 }
