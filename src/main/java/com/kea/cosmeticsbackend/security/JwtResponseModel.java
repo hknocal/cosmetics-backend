@@ -1,4 +1,4 @@
-package com.kea.cosmeticsbackend.model;
+package com.kea.cosmeticsbackend.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

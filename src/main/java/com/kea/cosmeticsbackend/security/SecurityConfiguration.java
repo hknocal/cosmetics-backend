@@ -1,7 +1,7 @@
-package com.kea.cosmeticsbackend.config;
+package com.kea.cosmeticsbackend.security;
 
-import com.kea.cosmeticsbackend.JwtAuthenticationEntryPoint;
-import com.kea.cosmeticsbackend.JwtFilter;
+import com.kea.cosmeticsbackend.security.JwtAuthenticationEntryPoint;
+import com.kea.cosmeticsbackend.security.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

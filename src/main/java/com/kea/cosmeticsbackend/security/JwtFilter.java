@@ -1,6 +1,5 @@
-package com.kea.cosmeticsbackend;
+package com.kea.cosmeticsbackend.security;
 
-import com.kea.cosmeticsbackend.service.JwtUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.kea.cosmeticsbackend;
+package com.kea.cosmeticsbackend.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
