@@ -15,3 +15,5 @@
 - `/booking/create`: Create a new booking.
 - `/booking/{id}`: Get booking details by ID.
 - `/user/list`: List of users.
+
+Live link: https://happy-sky-0a8b63303.4.azurestaticapps.net/
