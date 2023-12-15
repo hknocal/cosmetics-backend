@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -38,6 +39,26 @@ public class BookingService {
     }
     public List<Booking> getAllBookingsWithCustomerInfo() {
         return bookingRepository.findAllWithCustomerInfo();
+    }
+
+    @Transactional
+    public List<BookingDTO> getBookingDTOList() {
+        List<Booking> bookingList = bookingRepository.findAll();
+        return bookingList.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private BookingDTO convertToDTO(Booking booking) {
+        BookingDTO bookingDTO = new BookingDTO();
+        bookingDTO.setTreatmentType(booking.getTreatment().getTreatmentType());
+        bookingDTO.setFirstName(booking.getCustomer().getFirstName());
+        bookingDTO.setLastName(booking.getCustomer().getLastName());
+        bookingDTO.setMail(booking.getCustomer().getMail());
+        bookingDTO.setAddress(booking.getCustomer().getAddress());
+        bookingDTO.setPhoneNumber(booking.getCustomer().getPhoneNumber());
+        bookingDTO.setAppointmentTime(booking.getAppointmentTime());
+        return bookingDTO;
     }
     @Transactional
     public Booking createBooking(@NotNull BookingDTO bookingDTO) {
