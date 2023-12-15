@@ -24,6 +24,12 @@ public class BookingController {
         List<Booking> bookingList = bookingService.bookingList();
         return new ResponseEntity<>(bookingList, HttpStatus.OK);
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<BookingDTO>> getBookingListDTO() {
+        List<BookingDTO> bookingDTOList = bookingService.getBookingDTOList();
+        return new ResponseEntity<>(bookingDTOList, HttpStatus.OK);
+    }
     @GetMapping("/available-times/{treatmentId}")
     public ResponseEntity<List<AvailableTimeDTO>> getAvailableTimesForTreatment(@PathVariable int treatmentId) {
         List<AvailableTimeDTO> availableTimes = bookingService.getAvailableTimesForTreatment(treatmentId);
